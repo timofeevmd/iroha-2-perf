@@ -81,22 +81,22 @@
         <dependency>
             <groupId>com.github.hyperledger.iroha-java</groupId>
             <artifactId>client</artifactId>
-            <version>1483efb</version>
+            <version>55ee2be</version>
         </dependency>
         <dependency>
             <groupId>com.github.hyperledger.iroha-java</groupId>
             <artifactId>admin-client</artifactId>
-            <version>1483efb</version>
+            <version>55ee2be</version>
         </dependency>
         <dependency>
             <groupId>com.github.hyperledger.iroha-java</groupId>
             <artifactId>model</artifactId>
-            <version>1483efb</version>
+            <version>55ee2be</version>
         </dependency>
         <dependency>
             <groupId>com.github.hyperledger.iroha-java</groupId>
             <artifactId>block</artifactId>
-            <version>1483efb</version>
+            <version>55ee2be</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

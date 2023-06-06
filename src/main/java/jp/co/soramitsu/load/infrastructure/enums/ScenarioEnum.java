@@ -1,11 +1,10 @@
 package jp.co.soramitsu.load.infrastructure.enums;
 
+import java.util.stream.Stream;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
-
-import java.util.stream.Stream;
 
 @Getter
 @AllArgsConstructor
@@ -17,8 +16,8 @@ public enum ScenarioEnum {
 
     public static ScenarioEnum findByValue(String value) {
         return Stream.of(ScenarioEnum.values())
-                     .filter(type -> type.getValue().equalsIgnoreCase(value))
-                     .findFirst()
-                     .orElseThrow((() -> new AssertionError(String.format("Can't find \"%s\" in ScenarioEnum", value))));
+            .filter(type -> type.getValue().equalsIgnoreCase(value))
+            .findFirst()
+            .orElseThrow((() -> new AssertionError(String.format("Can't find \"%s\" in ScenarioEnum", value))));
     }
 }
