@@ -33,9 +33,18 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>net.cloudburo</groupId>
+            <artifactId>polkadot-java</artifactId>
+            <version>0.1</version>
+        </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-netty-shaded</artifactId>
@@ -79,25 +88,30 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>com.github.hyperledger</groupId>
+            <artifactId>iroha-java</artifactId>
+            <version>f7b2421154</version>
+        </dependency>
+        <!--<dependency>
             <groupId>com.github.hyperledger.iroha-java</groupId>
             <artifactId>client</artifactId>
-            <version>55ee2be</version>
+            <version>eb33cd7</version>
         </dependency>
         <dependency>
             <groupId>com.github.hyperledger.iroha-java</groupId>
             <artifactId>admin-client</artifactId>
-            <version>55ee2be</version>
+            <version>eb33cd7</version>
         </dependency>
         <dependency>
             <groupId>com.github.hyperledger.iroha-java</groupId>
             <artifactId>model</artifactId>
-            <version>55ee2be</version>
+            <version>eb33cd7</version>
         </dependency>
         <dependency>
             <groupId>com.github.hyperledger.iroha-java</groupId>
             <artifactId>block</artifactId>
-            <version>55ee2be</version>
-        </dependency>
+            <version>eb33cd7</version>
+        </dependency>-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>

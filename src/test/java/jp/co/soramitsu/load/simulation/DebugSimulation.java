@@ -10,6 +10,6 @@ public class DebugSimulation extends Simulation {
 
     {
         setUp(
-            ScenarioSelector.getScenario().injectOpen(atOnceUsers(100))).protocols(httpProtocol);
+            ScenarioSelector.getScenario().injectOpen(atOnceUsers(10))).protocols(httpProtocol);
     }
 }
