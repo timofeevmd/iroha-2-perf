@@ -1,11 +1,7 @@
 package jp.co.soramitsu.load.base.scenarious
 
-import io.ktor.client.call.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import jp.co.soramitsu.iroha2.AdminIroha2Client
 import jp.co.soramitsu.iroha2.client.Iroha2Client
-import jp.co.soramitsu.iroha2.generated.datamodel.transaction.VersionedSignedTransaction
+import jp.co.soramitsu.iroha2.generated.VersionedSignedTransaction
 import jp.co.soramitsu.iroha2.hash
 import jp.co.soramitsu.iroha2.toHex
 import jp.co.soramitsu.iroha2.transaction.TransactionBuilder
@@ -24,7 +20,8 @@ open class SendTransaction {
 
     companion object {
         @JvmStatic
-        fun sendNewTransaction(transaction: VersionedSignedTransaction) = runBlocking { SendTransaction().sendTransaction(transaction) }
+        fun sendNewTransaction(transaction: VersionedSignedTransaction) =
+            runBlocking { SendTransaction().sendTransaction(transaction) }
     }
 
     open val logger: Logger = LoggerFactory.getLogger(javaClass)
@@ -39,16 +36,14 @@ open class SendTransaction {
     }
 
     suspend fun sendTransaction(
-        transaction: VersionedSignedTransaction
+        transaction: VersionedSignedTransaction,
     ): CompletableDeferred<ByteArray> = coroutineScope {
-
         val lock = Mutex(locked = true)
         client.subscribeToTransactionStatus(transaction.hash())
-        .also {
+            .also {
                 lock.unlock()
                 lock.lock()
                 fireAndForget { transaction }
-        }
+            }
     }
 }
-

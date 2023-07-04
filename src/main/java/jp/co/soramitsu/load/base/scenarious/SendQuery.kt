@@ -1,23 +1,22 @@
-package jp.co.soramitsu.load.base.scenarious;
+package jp.co.soramitsu.load.base.scenarious
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.ktor.http.*
-import jp.co.soramitsu.iroha2.*
-import jp.co.soramitsu.iroha2.generated.datamodel.domain.Domain
-import jp.co.soramitsu.iroha2.generated.datamodel.pagination.Pagination
-import jp.co.soramitsu.iroha2.generated.datamodel.query.VersionedSignedQueryRequest
-import jp.co.soramitsu.iroha2.generated.datamodel.sorting.Sorting
+import io.ktor.http.parametersOf
+import jp.co.soramitsu.iroha2.Page
+import jp.co.soramitsu.iroha2.generated.Domain
+import jp.co.soramitsu.iroha2.generated.Pagination
+import jp.co.soramitsu.iroha2.generated.Sorting
+import jp.co.soramitsu.iroha2.generated.VersionedSignedQuery
 import jp.co.soramitsu.iroha2.query.QueryAndExtractor
-
 
 open class SendQuery {
 
     fun <T> getBody(
         queryAndExtractor: QueryAndExtractor<T>,
         page: Pagination? = null,
-        sorting: Sorting? = null
+        sorting: Sorting? = null,
     ): ByteArray {
-        val response = VersionedSignedQueryRequest.encode(queryAndExtractor.query)
+        val response = VersionedSignedQuery.encode(queryAndExtractor.query)
         response.let {
             page.also {
                 if (it != null) {
@@ -29,10 +28,9 @@ open class SendQuery {
                         parametersOf("sort_by_metadata_key", it.sortByMetadataKey?.string.toString())
                     }
                 }
-
             }
         }
-       return response
+        return response
     }
 
     fun convertToByteArray(page: Page<List<Domain>>): ByteArray {
@@ -40,9 +38,3 @@ open class SendQuery {
         return objectMapper.writeValueAsBytes(page)
     }
 }
-
-
-
-
-
-
