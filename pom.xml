@@ -25,7 +25,7 @@
         <commons-dbcp2.version>2.9.0</commons-dbcp2.version>
         <commons-codec.version>1.15</commons-codec.version>
         <lombok.version>1.18.24</lombok.version>
-        <kotlin.version>1.6.10</kotlin.version>
+        <kotlin.version>1.8.0</kotlin.version>
     </properties>
 
     <repositories>
@@ -190,6 +190,16 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>29.0-android</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-coroutines-core</artifactId>
+            <version>1.7.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-coroutines-jdk8</artifactId>
+            <version>1.7.1</version>
         </dependency>
     </dependencies>
     <build>

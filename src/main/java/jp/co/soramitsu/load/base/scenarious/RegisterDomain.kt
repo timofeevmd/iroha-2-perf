@@ -4,13 +4,16 @@ import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.CoreDsl.scenario
 import io.gatling.javaapi.core.ScenarioBuilder
 import io.gatling.javaapi.http.HttpDsl
+import io.ktor.http.websocket.*
 import jp.co.soramitsu.iroha2.asDomainId
 import jp.co.soramitsu.iroha2.asName
-import jp.co.soramitsu.iroha2.generated.datamodel.account.AccountId
-import jp.co.soramitsu.iroha2.generated.datamodel.transaction.VersionedSignedTransaction
+import jp.co.soramitsu.iroha2.client.Iroha2Client
+import jp.co.soramitsu.iroha2.generated.AccountId
+import jp.co.soramitsu.iroha2.generated.VersionedSignedTransaction
 import jp.co.soramitsu.iroha2.keyPairFromHex
 import jp.co.soramitsu.iroha2.transaction.TransactionBuilder
 import kotlinx.coroutines.runBlocking
+import java.net.URL
 
 open class RegisterDomain : SendTransaction() {
 
@@ -23,6 +26,9 @@ open class RegisterDomain : SendTransaction() {
     val transaction: VersionedSignedTransaction =
         TransactionBuilder().account(admin).registerDomain(newDomainId).buildSigned(adminKeyPair)
 
+
+    val client = Iroha2Client(URL(peerUrl), log = true)
+
     companion object {
         @JvmStatic
         fun apply() = runBlocking { RegisterDomain().applyScn() }
@@ -33,8 +39,10 @@ open class RegisterDomain : SendTransaction() {
             HttpDsl.http("Register domain")
                 .post(peerUrl + "/transaction")
                 .header("Content-Type", "application/parity-scale-codec")
-                .body(CoreDsl.ByteArrayBody(sendNewTransaction(transaction).getCompleted())),
-        )
+                //.body(CoreDsl.ByteArrayBody(sendNewTransaction(client, transaction).getCompleted())),
+                .body(CoreDsl.ByteArrayBody(sendNewTransaction(client, transaction).getCompleted()))
+            )
+
 
     fun applyScn(): ScenarioBuilder? {
         return scn

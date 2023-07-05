@@ -8,8 +8,8 @@ public class ScenarioSelector {
 
 
     public static ScenarioBuilder getScenario() {
-        return FindAllDomain.Companion.apply();
-        //return RegisterDomain.Companion.apply();
+        //return FindAllDomain.Companion.apply();
+        return RegisterDomain.Companion.apply();
         /*switch (findByValue(System.getProperty("scenario"))) {
             case FINDALLDOMAIN:
                 return FindAllDomain.apply();

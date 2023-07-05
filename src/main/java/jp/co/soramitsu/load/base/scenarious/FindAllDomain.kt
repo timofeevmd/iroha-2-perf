@@ -9,9 +9,9 @@ import io.gatling.javaapi.core.ScenarioBuilder
 import io.gatling.javaapi.http.HttpDsl.http
 import jp.co.soramitsu.iroha2.asDomainId
 import jp.co.soramitsu.iroha2.asName
-import jp.co.soramitsu.iroha2.generated.datamodel.account.AccountId
-import jp.co.soramitsu.iroha2.generated.datamodel.domain.Domain
-import jp.co.soramitsu.iroha2.generated.datamodel.query.VersionedPaginatedQueryResult
+import jp.co.soramitsu.iroha2.generated.Domain
+import jp.co.soramitsu.iroha2.generated.AccountId
+import jp.co.soramitsu.iroha2.generated.VersionedPaginatedQueryResult
 import jp.co.soramitsu.iroha2.keyPairFromHex
 import jp.co.soramitsu.iroha2.query.QueryAndExtractor
 import jp.co.soramitsu.iroha2.query.QueryBuilder
