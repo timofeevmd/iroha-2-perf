@@ -1,7 +1,7 @@
 package jp.co.soramitsu.load.base.scenarious
 
 import jp.co.soramitsu.iroha2.client.Iroha2Client
-import jp.co.soramitsu.iroha2.generated.VersionedSignedTransaction
+import jp.co.soramitsu.iroha2.generated.datamodel.transaction.VersionedSignedTransaction
 import jp.co.soramitsu.iroha2.hash
 import jp.co.soramitsu.iroha2.toHex
 import jp.co.soramitsu.iroha2.transaction.TransactionBuilder

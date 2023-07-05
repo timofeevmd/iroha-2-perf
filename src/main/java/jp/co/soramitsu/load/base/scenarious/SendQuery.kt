@@ -3,10 +3,10 @@ package jp.co.soramitsu.load.base.scenarious
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.ktor.http.parametersOf
 import jp.co.soramitsu.iroha2.Page
-import jp.co.soramitsu.iroha2.generated.Domain
-import jp.co.soramitsu.iroha2.generated.Pagination
-import jp.co.soramitsu.iroha2.generated.Sorting
-import jp.co.soramitsu.iroha2.generated.VersionedSignedQuery
+import jp.co.soramitsu.iroha2.generated.datamodel.domain.Domain
+import jp.co.soramitsu.iroha2.generated.datamodel.sorting.Sorting
+import jp.co.soramitsu.iroha2.generated.datamodel.query.VersionedSignedQueryRequest
+import jp.co.soramitsu.iroha2.generated.datamodel.pagination.Pagination
 import jp.co.soramitsu.iroha2.query.QueryAndExtractor
 
 open class SendQuery {
@@ -16,7 +16,7 @@ open class SendQuery {
         page: Pagination? = null,
         sorting: Sorting? = null,
     ): ByteArray {
-        val response = VersionedSignedQuery.encode(queryAndExtractor.query)
+        val response = VersionedSignedQueryRequest.encode(queryAndExtractor.query)
         response.let {
             page.also {
                 if (it != null) {
