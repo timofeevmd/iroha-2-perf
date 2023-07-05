@@ -15,7 +15,6 @@ import jp.co.soramitsu.iroha2.*
 import jp.co.soramitsu.iroha2.client.Iroha2Client
 import jp.co.soramitsu.iroha2.generated.*
 import jp.co.soramitsu.iroha2.transaction.Filters
-import jp.co.soramitsu.iroha2.transaction.Instructions
 import jp.co.soramitsu.iroha2.transaction.TransactionBuilder
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
@@ -78,8 +77,8 @@ open class SendTransaction {
 
     companion object {
         @JvmStatic
-        fun sendNewTransaction(client: Iroha2Client, transaction: VersionedSignedTransaction) =
-            runBlocking { SendTransaction().sendTransaction(client, transaction)
+        fun sendNewTransaction(transaction: VersionedSignedTransaction) =
+            runBlocking { SendTransaction().sendTransaction(transaction)
                 .also {
                     d -> withTimeout(Duration.ofSeconds(5)) { d.await() }
                 }
@@ -110,7 +109,6 @@ open class SendTransaction {
             }
     }*/
    suspend fun sendTransaction(
-        client: Iroha2Client,
         transaction: VersionedSignedTransaction
     ): CompletableDeferred<ByteArray> = coroutineScope {
         val lock = Mutex(locked = true)

@@ -27,7 +27,7 @@ open class RegisterDomain : SendTransaction() {
         TransactionBuilder().account(admin).registerDomain(newDomainId).buildSigned(adminKeyPair)
 
 
-    val client = Iroha2Client(URL(peerUrl), log = true)
+   // val client = Iroha2Client(URL(peerUrl), log = true)
 
     companion object {
         @JvmStatic
@@ -40,7 +40,7 @@ open class RegisterDomain : SendTransaction() {
                 .post(peerUrl + "/transaction")
                 .header("Content-Type", "application/parity-scale-codec")
                 //.body(CoreDsl.ByteArrayBody(sendNewTransaction(client, transaction).getCompleted())),
-                .body(CoreDsl.ByteArrayBody(sendNewTransaction(client, transaction).getCompleted()))
+                .body(CoreDsl.ByteArrayBody(sendNewTransaction(transaction).getCompleted()))
             )
 
 
