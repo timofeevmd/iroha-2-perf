@@ -1,19 +1,28 @@
 package jp.co.soramitsu.load.base.scenarious
 
+import com.fasterxml.jackson.databind.module.SimpleModule
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.CoreDsl.scenario
 import io.gatling.javaapi.core.ScenarioBuilder
 import io.gatling.javaapi.http.HttpDsl
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.auth.*
+import io.ktor.client.plugins.auth.providers.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.plugins.logging.*
+import io.ktor.client.plugins.websocket.*
 import io.ktor.http.websocket.*
-import jp.co.soramitsu.iroha2.asDomainId
-import jp.co.soramitsu.iroha2.asName
+import io.ktor.serialization.jackson.*
+import jp.co.soramitsu.iroha2.*
 import jp.co.soramitsu.iroha2.client.Iroha2Client
 import jp.co.soramitsu.iroha2.generated.AccountId
 import jp.co.soramitsu.iroha2.generated.VersionedSignedTransaction
-import jp.co.soramitsu.iroha2.keyPairFromHex
 import jp.co.soramitsu.iroha2.transaction.TransactionBuilder
 import kotlinx.coroutines.runBlocking
 import java.net.URL
+import java.time.Duration
 
 open class RegisterDomain : SendTransaction() {
 
@@ -26,8 +35,7 @@ open class RegisterDomain : SendTransaction() {
     val transaction: VersionedSignedTransaction =
         TransactionBuilder().account(admin).registerDomain(newDomainId).buildSigned(adminKeyPair)
 
-
-   // val client = Iroha2Client(URL(peerUrl), log = true)
+    val client = AdminIroha2Client(URL(peerUrl), log = true)
 
     companion object {
         @JvmStatic
@@ -40,9 +48,8 @@ open class RegisterDomain : SendTransaction() {
                 .post(peerUrl + "/transaction")
                 .header("Content-Type", "application/parity-scale-codec")
                 //.body(CoreDsl.ByteArrayBody(sendNewTransaction(client, transaction).getCompleted())),
-                .body(CoreDsl.ByteArrayBody(sendNewTransaction(transaction).getCompleted()))
+                .body(CoreDsl.ByteArrayBody(sendNewTransaction(client, transaction).getCompleted()))
             )
-
 
     fun applyScn(): ScenarioBuilder? {
         return scn
