@@ -25,8 +25,10 @@ open class RegisterDomain : SendTransaction() {
         "9ac47abf59b356e0bd7dcbbbb4dec080e302156a48ca907e47cb6aea1d32719e",
     )
     val newDomainId = "looking_glass_${System.currentTimeMillis()}_new".asDomainId()
+
     val transaction: VersionedSignedTransaction =
         TransactionBuilder().account(admin).registerDomain(newDomainId).buildSigned(adminKeyPair)
+    val requestBody = VersionedSignedTransaction.encode(transaction)
 
     val client = AdminIroha2Client(URL(peerUrl), log = true)
 
@@ -36,23 +38,25 @@ open class RegisterDomain : SendTransaction() {
     }
 
     val scn = scenario("RegisterDomain")
+        .exec { newSession: Session ->
+            runBlocking {
+                sendTransaction(client, transaction).getCompleted()
+            }
+            newSession
+        }
+        .exec(
+            HttpDsl.http("Register domain")
+                .post("$peerUrl/transaction")
+                .header("Content-Type", "application/parity-scale-codec")
+                .body(CoreDsl.ByteArrayBody(fireAndForgetNew(client, transaction)))
+            )
         /*.exec(
             HttpDsl.http("Register domain")
                 .post(peerUrl + "/transaction")
                 .header("Content-Type", "application/parity-scale-codec")
-                .body(CoreDsl.ByteArrayBody(sendNewTransaction(client, transaction).getCompleted())),
+                .body(CoreDsl.ByteArrayBody(VersionedSignedTransaction.encode(transaction)))
             )*/
-        .exec { session: Session ->
-            runBlocking {
-                client.sendTransaction {
-                    account(admin)
-                    registerDomain(newDomainId)
-                    buildSigned(adminKeyPair)
-                }
-            }
-            //CoreDsl.ByteArrayBody(sendNewTransaction(client, transaction).getCompleted())
-            session
-        }
+
 
     fun applyScn(): ScenarioBuilder? {
         return scn
